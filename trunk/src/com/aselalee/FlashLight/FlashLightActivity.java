@@ -1,17 +1,20 @@
-package com.android.FlashLight;
+package com.aselalee.FlashLight;
+
+import com.aselalee.FlashLight.R;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.ToggleButton;
 
 public class FlashLightActivity extends Activity {
     private final static String LOG_TAG = "FlashLight";
-    private Button mToggleBtn;
+    private ToggleButton mToggleBtn;
     private Camera mCamera;
     private boolean isCameraON;
     /** Called when the activity is first created. */
@@ -20,7 +23,7 @@ public class FlashLightActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        mToggleBtn = (Button) findViewById(R.id.toggleButton);
+        mToggleBtn = (ToggleButton) findViewById(R.id.toggleButton);
         mToggleBtn.setOnClickListener(new OnClickListener() {
             //@Override
             public void onClick(View v) {
@@ -32,6 +35,7 @@ public class FlashLightActivity extends Activity {
     protected void onResume() {
         super.onResume();
         isCameraON = false;
+        mToggleBtn.setChecked(false);
         try{
             mCamera = Camera.open();
             //mCamera.startPreview();
@@ -50,6 +54,10 @@ public class FlashLightActivity extends Activity {
             mCamera = null;
         }
         super.onPause();
+    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+      super.onConfigurationChanged(newConfig);
     }
     private void toggleLED(){
     	if( mCamera == null){
